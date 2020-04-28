@@ -1,0 +1,62 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 6ff16beb6c0f1bc23242cf81fd65b07c54631a439bd568ecf9d92a5946cb2a2e
+
+name:           RegEx
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/rvighne/RegEx#readme>
+homepage:       https://github.com/rvighne/RegEx#readme
+bug-reports:    https://github.com/rvighne/RegEx/issues
+author:         Rohit Vighne
+maintainer:     rohit.vighne@gmail.com
+copyright:      2020 Rohit Vighne
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/rvighne/RegEx
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_RegEx
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable RegEx-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_RegEx
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      RegEx
+    , base >=4.7 && <5
+  default-language: Haskell2010
+
+test-suite RegEx-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_RegEx
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      RegEx
+    , base >=4.7 && <5
+  default-language: Haskell2010
