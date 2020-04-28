@@ -7,29 +7,17 @@ data RegEx c
 	| Union (RegEx c) (RegEx c)
 	| Concat (RegEx c) (RegEx c)
 	| Star (RegEx c)
-	deriving Show
 
-match :: Eq c => RegEx c -> [c] -> Maybe [c]
+match :: Eq c => ([c] -> r) -> r -> RegEx c -> [c] -> r
 
-match Null _ = Nothing
+match _ rej Null _ = rej
 
-match Empty [] = Just []
-match Empty _ = Nothing
+match acc _ Empty [] = acc []
+match _ rej Empty _ = rej
 
-match (Const c) (x:xs) | x == c = Just xs
-match (Const _) _ = Nothing
+match acc _ (Const c) (x:xs) | x == c = acc xs
+match _ rej (Const _) _ = rej
 
-match (Union a b) xs =
-	case match a xs of
-		Nothing -> match b xs
-		r -> r
-
-match (Concat a b) xs =
-	case match a xs of
-		Just suf -> match b suf
-		n -> n
-
-match (Star r) xs =
-	case match r xs of
-		Just suf -> match (Star r) suf
-		Nothing -> Just xs
+match acc rej (Union a b) xs = match acc (match acc rej b xs) a xs
+match acc rej (Concat a b) xs = match (match acc rej b) rej a xs
+match acc rej (Star r) xs = match (match acc rej (Star r)) (acc xs) r xs
