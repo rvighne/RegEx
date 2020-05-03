@@ -9,9 +9,7 @@ data RegEx c
 
 match :: ([c] -> r) -> r -> RegEx c -> [c] -> r
 
-match acc _ Empty [] = acc []
-match _ rej Empty _ = rej
-
+match acc _ Empty xs = acc xs
 match acc _ (Symbol f) (x:xs) | f x = acc xs
 match _ rej (Symbol _) _ = rej
 
